@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catch the Greeting Breadge!</title>
+
+<style>
+
+body{
+background: linear-gradient(135deg,#ff9a9e,#fad0c4);
+font-family: Arial, sans-serif;
+text-align:center;
+height:100vh;
+margin:0;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+position:relative;
+}
+
+.card{
+background:white;
+border:4px solid #ff4d8d;
+border-radius:20px;
+padding:30px;
+width:320px;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+position:relative;
+z-index:1;
+}
+
+h1{
+color:#ff4d8d;
+}
+
+#btn{
+position:fixed;
+padding:14px 24px;
+font-size:16px;
+border:none;
+border-radius:30px;
+background:#ff4d8d;
+color:white;
+cursor:pointer;
+z-index:2;
+}
+
+#meme{
+margin-top:15px;
+max-width:100%;
+border-radius:10px;
+display:none;
+animation:pop 0.4s ease;
+}
+
+#message{
+display:none;
+margin-top:20px;
+font-size:24px;
+color:#ff4d8d;
+font-weight:bold;
+animation:pop 0.6s ease;
+z-index:3;
+position:relative;
+}
+
+@keyframes pop{
+from{transform:scale(0);}
+to{transform:scale(1);}
+}
+
+.heart{
+position:absolute;
+font-size:20px;
+animation:float 4s linear infinite;
+}
+
+@keyframes float{
+from{transform:translateY(0); opacity:1;}
+to{transform:translateY(-100vh); opacity:0;}
+}
+
+.confetti{
+position:absolute;
+width:8px;
+height:8px;
+background:#ff4d8d;
+animation:fall 2s linear forwards;
+}
+
+@keyframes fall{
+to{
+transform:translateY(500px) rotate(720deg);
+opacity:0;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+<h1>Breadge Catch the Button 👀</h1>
+<p>Try tapping it!</p>
+<img id="meme">
+<div id="message">
+💜 Happy International Women's Day Breadge😜 💜
+</div>
+</div>
+
+<button id="btn">Catch Me 😆</button>
+
+<script>
+
+let btn = document.getElementById("btn");
+let message = document.getElementById("message");
+let meme = document.getElementById("meme");
+
+let escapes = 0;
+let maxEscapes = 6;
+
+/* meme images for each escape */
+let memes = [
+"https://i.imgflip.com/30b1gx.jpg",
+"https://i.imgflip.com/1ur9b0.jpg",
+"https://i.imgflip.com/345v97.jpg",
+"https://i.imgflip.com/2wifvo.jpg",
+"https://i.imgflip.com/4acd7j.png",
+"https://i.imgflip.com/1bij.jpg"
+];
+
+btn.style.left="50%";
+btn.style.top="70%";
+
+/* Move button & show memes */
+function moveButton(){
+if(escapes < maxEscapes){
+let x = Math.random()*(window.innerWidth-120);
+let y = Math.random()*(window.innerHeight-60);
+btn.style.left=x+"px";
+btn.style.top=y+"px";
+escapes++;
+
+/* Show meme */
+meme.src = memes[escapes-1];
+meme.style.display="block";
+
+/* Change button text */
+if(escapes===2) btn.innerText="Pindotin mopa";
+if(escapes===3) btn.innerText="Walang bitaw haha isa pa";
+if(escapes===4) btn.innerText="Tiyaga yarn accling?";
+if(escapes===5) btn.innerText="Omki eto na";
+if(escapes===6) btn.innerText="final na talaga 'to HAHAHA";
+}
+}
+
+/* Mobile + desktop events */
+btn.addEventListener("touchstart", moveButton);
+btn.addEventListener("mouseover", moveButton);
+
+/* Click event */
+btn.addEventListener("click", function(){
+if(escapes >= maxEscapes){
+btn.style.display="none";
+meme.style.display="none";
+message.style.display="block";
+
+/* Celebration effects */
+celebrate();
+}
+});
+
+/* Celebration: floating hearts + confetti */
+function celebrate(){
+
+let heartInterval = setInterval(()=>{
+let heart = document.createElement("div");
+heart.className="heart";
+heart.innerText="💜";
+heart.style.left=Math.random()*100+"vw";
+heart.style.fontSize=(Math.random()*20+15)+"px";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),4000);
+},200);
+
+/* confetti */
+for(let i=0;i<60;i++){
+let conf = document.createElement("div");
+conf.className="confetti";
+conf.style.left=Math.random()*window.innerWidth+"px";
+conf.style.top="0px";
+conf.style.background = ["#ff4d8d","#f9c74f","#90be6d","#f94144","#577590"][Math.floor(Math.random()*5)];
+document.body.appendChild(conf);
+setTimeout(()=>conf.remove(),2000);
+}
+}
+
+</script>
+
+</body>
+</html>
